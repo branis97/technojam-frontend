@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/branis97/technojam-frontend.svg?branch=Development1.0)](https://travis-ci.com/branis97/technojam-frontend)
+[![Coverage Status](https://coveralls.io/repos/github/branis97/technojam-frontend/badge.svg)](https://coveralls.io/github/branis97/technojam-frontend)
 
 This project use React, material ui completed with MERN Stack with [Create React App](https://github.com/facebook/create-react-app).
 
