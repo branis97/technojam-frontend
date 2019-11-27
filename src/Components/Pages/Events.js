@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Grid } from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import { Timeline, TimelineEvent } from 'react-event-timeline';
+import {Timeline, TimelineEvent} from 'react-event-timeline';
 import '../style.css';
 import EventContext from '../../context/event/eventContext';
 import AuthContext from '../../context/auth/authContext';
@@ -18,7 +18,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Paper from '@material-ui/core/Paper';
 import Rating from '@material-ui/lab/Rating';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 // import Draggable from 'react-draggable';
 /* FIXME: When the target will be decided, remove the rel attribute.
@@ -110,7 +110,7 @@ const Events = () => {
 						>
 							<div
 								style={{
-									display: 'inline',
+									// display: 'inline',
 									display: 'inlineblock',
 									float: 'left'
 								}}
