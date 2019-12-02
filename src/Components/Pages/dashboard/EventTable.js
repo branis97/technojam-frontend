@@ -12,14 +12,14 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import AuthContext from "../../../context/auth/authContext";
+import EditIcon from "@material-ui/icons/Edit";
+import EventContext from "../../../context/event/eventContext";
 
 function createData(cid, name, calories, fat, carbs, protein) {
   return { cid, name, calories, fat, carbs, protein };
@@ -67,21 +67,18 @@ const headCells = [
     id: "calories",
     numeric: true,
     disablePadding: false,
-    label: "Date & Time"
+    label: "Event Id"
   },
-  { id: "fat", numeric: false, disablePadding: false, label: "Email" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Contact" },
-  { id: "protein", numeric: false, disablePadding: false, label: "Query" }
+  { id: "fat", numeric: false, disablePadding: false, label: "Venue" },
+  { id: "carbs", numeric: true, disablePadding: false, label: "Timing" },
+  { id: "protein", numeric: false, disablePadding: false, label: "Description" }
 ];
 
 function EnhancedTableHead(props) {
   const {
     classes,
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort
   } = props;
   const createSortHandler = property => event => {
@@ -91,19 +88,19 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding='checkbox'>
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all desserts" }}
-          />
-        </TableCell>
+        {/* <TableCell padding='checkbox'>
+					<Checkbox
+						indeterminate={numSelected > 0 && numSelected < rowCount}
+						checked={numSelected === rowCount}
+						onChange={onSelectAllClick}
+						inputProps={{ 'aria-label': 'select all desserts' }}
+					/>
+				</TableCell> */}
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "default"}
+            padding={headCell.disablePadding ? "checkbox" : "checkbox"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -120,6 +117,8 @@ function EnhancedTableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell>Edit</TableCell>
+        <TableCell>Delete</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -178,7 +177,7 @@ const EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant='h6' id='tableTitle'>
-            Contacts/Query
+            Events
           </Typography>
         )}
       </div>
@@ -234,14 +233,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ContactTable() {
+export default function EventTable() {
   const classes = useStyles();
-  const authContext = useContext(AuthContext);
-  const { contact, loadContact, deleteContact } = authContext;
+  const eventContext = useContext(EventContext);
+  const { events, loadEvents, deleteEvent } = eventContext;
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
+  const [selected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -250,35 +249,6 @@ export default function ContactTable() {
     const isDesc = orderBy === property && order === "desc";
     setOrder(isDesc ? "asc" : "desc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.cid);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -301,23 +271,32 @@ export default function ContactTable() {
 
   onRefreshClicked = () => {
     console.log("refreshing list");
-    loadContact();
+    loadEvents();
   };
 
   onDeleteClicked = () => {
     console.log("cids:", selected);
-    deleteContact(selected);
+    // deleteContact(selected);
   };
+
   const setContact = () => {
     rows = [];
-    // eslint-disable-next-line array-callback-return
-    contact.map(c => {
-      rows.push(createData(c.cid, c.name, c.cid, c.email, c.contact, c.query));
+    events.map(c => {
+      rows.push(
+        createData(
+          c.eid,
+          c.name,
+          c.eid,
+          c.venue,
+          new Date(c.timing).toDateString(),
+          c.desciption
+        )
+      );
     });
   };
   return (
     <div className={classes.root}>
-      {contact.length > 0 && setContact()}
+      {events.length > 0 && setContact()}
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length}/>
         <div className={classes.tableWrapper}>
@@ -331,7 +310,6 @@ export default function ContactTable() {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
@@ -344,24 +322,22 @@ export default function ContactTable() {
 
                   return (
                     <TableRow
-                      hover
-                      onClick={event => handleClick(event, row.cid)}
                       role='checkbox'
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       selected={isItemSelected}
                     >
-                      <TableCell padding='checkbox'>
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </TableCell>
+                      {/* <TableCell padding='checkbox'>
+												<Checkbox
+													checked={isItemSelected}
+													inputProps={{ 'aria-labelledby': labelId }}
+												/>
+											</TableCell> */}
                       <TableCell
                         component='th'
                         id={labelId}
                         scope='row'
-                        padding='none'
+                        padding='checkbox'
                       >
                         {row.name}
                       </TableCell>
@@ -369,6 +345,18 @@ export default function ContactTable() {
                       <TableCell align='right'>{row.fat}</TableCell>
                       <TableCell align='right'>{row.carbs}</TableCell>
                       <TableCell align='right'>{row.protein}</TableCell>
+                      <TableCell padding='checkbox'>
+                        <IconButton tooltip='Delete Event'>
+                          <EditIcon/>
+                        </IconButton>
+                      </TableCell>
+                      <TableCell padding='checkbox'>
+                        <IconButton tooltip='Delete Event'>
+                          <DeleteIcon
+                            onClick={() => deleteEvent(row.calories)}
+                          />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   );
                 })}

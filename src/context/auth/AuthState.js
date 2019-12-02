@@ -1,178 +1,189 @@
-import React, { useReducer } from 'react';
-import axios from 'axios';
-import AuthContext from './authContext';
-import authReducer from './authReducer';
-import setAuthToken from '../../util/setAuthToken';
+import React, { useReducer } from "react";
+import axios from "axios";
+import AuthContext from "./authContext";
+import authReducer from "./authReducer";
+import setAuthToken from "../../util/setAuthToken";
 import {
-	REGISTER_SUCCESS,
-	REGISTER_FAIL,
-	USER_LOADED,
-	CONTACT_LOADED,
-	AUTH_ERROR,
-	LOGIN_SUCCESS,
-	LOGIN_FAIL,
-	LOGOUT,
-	CLEAR_ERRORS,
-	SHOW_LOADING,
-	backendUrl,
-	DELETE_CONTACT
-} from '../types';
+  AUTH_ERROR,
+  backendUrl,
+  CLEAR_ERRORS,
+  CONTACT_LOADED,
+  LOGIN_DIALOG,
+  LOGIN_FAIL,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
+  SHOW_LOADING,
+  USER_LOADED
+} from "../types";
 
 const AuthState = props => {
-	const initialState = {
-		token: localStorage.getItem('token'),
-		isAuthenticated: null,
-		loading: false,
-		user: null,
-		error: null,
-		contact: []
-	};
+  const initialState = {
+    token: localStorage.getItem("token"),
+    isAuthenticated: null,
+    loading: false,
+    user: null,
+    error: null,
+    showLogin: false,
+    contact: []
+  };
 
-	const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
-	// Load User
-	const loadUser = async () => {
-		if (localStorage.token) {
-			setAuthToken(localStorage.token);
-			try {
-				const res = await axios.get(backendUrl + '/api/login');
+  const loginDialog = setTo => {
+    // console.log('Login dialog caled with value:', setTo);
+    dispatch({
+      type: LOGIN_DIALOG,
+      payload: setTo
+    });
+  };
 
-				dispatch({
-					type: USER_LOADED,
-					payload: res.data
-				});
-				if (res.data.role == 'admin') loadContact();
-			} catch (err) {
-				dispatch({ type: AUTH_ERROR });
-			}
-		}
-	};
+  // Load User
+  const loadUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      try {
+        const res = await axios.get(`${backendUrl}/api/login`);
 
-	const loadContact = async () => {
-		console.log('Loading Contacts');
-		if (localStorage.token) {
-			setAuthToken(localStorage.token);
-			try {
-				const res = await axios.get(backendUrl + '/api/contact');
-				console.log('contacts from server:', res.data);
-				dispatch({
-					type: CONTACT_LOADED,
-					payload: res.data
-				});
-			} catch (err) {
-				dispatch({ type: CLEAR_ERRORS });
-			}
-		}
-	};
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data
+        });
+        if (res.data.role == "admin") loadContact();
+      } catch (err) {
+        dispatch({ type: AUTH_ERROR });
+      }
+    }
+  };
 
-	const deleteContact = async cids => {
-		console.log('Deleting Contacts:', { cids: cids });
-		if (localStorage.token) {
-			setAuthToken(localStorage.token);
-			const config = {
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			};
+  const loadContact = async () => {
+    console.log("Loading Contacts");
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      try {
+        const res = await axios.get(`${backendUrl}/api/contact`);
+        console.log("contacts from server:", res.data);
+        dispatch({
+          type: CONTACT_LOADED,
+          payload: res.data
+        });
+      } catch (err) {
+        dispatch({ type: CLEAR_ERRORS });
+      }
+    }
+  };
 
-			try {
-				const res = await axios.delete(
-					backendUrl + '/api/contact',
-					{ cids: cids },
-					config
-				);
-				console.log('contacts from server:', res.data);
-				loadContact();
-			} catch (err) {
-				dispatch({ type: CLEAR_ERRORS });
-			}
-		}
-	};
-	// Register User
-	const register = async formData => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		};
+  const deleteContact = async cids => {
+    console.log("Deleting Contacts:", { cids });
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      const config = {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      };
 
-		try {
-			const res = await axios.post(
-				backendUrl + '/api/register',
-				formData,
-				config
-			);
+      try {
+        const res = await axios.delete(
+          `${backendUrl}/api/contact`,
+          { cids },
+          config
+        );
+        console.log("contacts from server:", res.data);
+        loadContact();
+      } catch (err) {
+        dispatch({ type: CLEAR_ERRORS });
+      }
+    }
+  };
+  // Register User
+  const register = async formData => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
 
-			dispatch({
-				type: REGISTER_SUCCESS,
-				payload: res.data
-			});
+    try {
+      const res = await axios.post(
+        `${backendUrl}/api/register`,
+        formData,
+        config
+      );
 
-			loadUser();
-		} catch (err) {
-			dispatch({
-				type: REGISTER_FAIL,
-				payload: err.response.data.msg
-			});
-		}
-	};
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data
+      });
 
-	// Login User
-	const login = async formData => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		};
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: err.response.data.msg
+      });
+    }
+  };
 
-		try {
-			const res = await axios.post(backendUrl + '/api/login', formData, config);
+  // Login User
+  const login = async formData => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
 
-			dispatch({
-				type: LOGIN_SUCCESS,
-				payload: res.data
-			});
+    try {
+      const res = await axios.post(`${backendUrl}/api/login`, formData, config);
 
-			loadUser();
-		} catch (err) {
-			dispatch({
-				type: LOGIN_FAIL,
-				payload: err.response.data.msg
-			});
-		}
-	};
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      });
 
-	// Logout
-	const logout = () => dispatch({ type: LOGOUT });
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.msg
+      });
+    }
+  };
 
-	// Clear Errors
-	const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
+  // Logout
+  const logout = () => dispatch({ type: LOGOUT });
 
-	//Loading
-	const showLoading = data => dispatch({ type: SHOW_LOADING, payload: data });
+  // Clear Errors
+  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
-	return (
-		<AuthContext.Provider
-			value={{
-				token: state.token,
-				isAuthenticated: state.isAuthenticated,
-				loading: state.loading,
-				user: state.user,
-				error: state.error,
-				contact: state.contact,
-				register,
-				loadUser,
-				loadContact,
-				deleteContact,
-				login,
-				logout,
-				clearErrors,
-				showLoading
-			}}
-		>
-			{props.children}
-		</AuthContext.Provider>
-	);
+  // Loading
+  const showLoading = data => dispatch({ type: SHOW_LOADING, payload: data });
+
+  return (
+    <AuthContext.Provider
+      value={{
+        token: state.token,
+        isAuthenticated: state.isAuthenticated,
+        loading: state.loading,
+        user: state.user,
+        error: state.error,
+        contact: state.contact,
+        showLogin: state.showLogin,
+        register,
+        loadUser,
+        loadContact,
+        deleteContact,
+        login,
+        logout,
+        clearErrors,
+        showLoading,
+        loginDialog
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthState;

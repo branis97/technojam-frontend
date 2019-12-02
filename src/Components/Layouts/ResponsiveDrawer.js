@@ -1,36 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+import React from "react";
+import { Link } from "react-router-dom";
 /* Material Components */
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 /* Icons */
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: "flex"
   },
   drawer: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       flexShrink: 0
     }
   },
   menuButton: {
     marginRight: theme.spacing(0),
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
+    [theme.breakpoints.up("md")]: {
+      display: "none"
     }
   },
   drawerPaper: {
@@ -50,66 +48,66 @@ function ResponsiveDrawer(props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar}/>
 
       <List>
-        <ListItem button component={Link} to={'/'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Home" />
+        <ListItem button component={Link} to="/" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Home"/>
         </ListItem>
       </List>
 
-      <Divider />
+      <Divider/>
 
       <List>
-      <List>
-        <ListItem button component={Link} to={'/Pannel'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Dashboard" />
+        <List>
+          <ListItem button component={Link} to="/Pannel" onClick={handleDrawerToggle}>
+            <ListItemIcon/>
+            <ListItemText primary="Dashboard"/>
+          </ListItem>
+        </List>
+        <ListItem button component={Link} to="/aboutus" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="About Us"/>
+        </ListItem>
+
+        <ListItem button component={Link} to="/events" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Events"/>
+        </ListItem>
+
+        <ListItem button component={Link} to="/achievements" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Achievements"/>
+        </ListItem>
+
+        <ListItem button component={Link} to="/team" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Team"/>
+        </ListItem>
+
+        <ListItem button component={Link} to="/Alumni" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Alumni"/>
+        </ListItem>
+
+        <ListItem button component={Link} to="/mentorship" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Mentorship"/>
+        </ListItem>
+
+        <ListItem button component={Link} to="/groups" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Groups"/>
         </ListItem>
       </List>
-        <ListItem button component={Link} to={'/aboutus'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="About Us" />
-        </ListItem>
 
-        <ListItem button component={Link} to={'/events'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Events" />
-        </ListItem>
-
-        <ListItem button component={Link} to={'/achievements'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Achievements" />
-        </ListItem>
-
-        <ListItem button component={Link} to={'/team'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Team" />
-        </ListItem>
-
-        <ListItem button component={Link} to={'/Alumni'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Alumni" />
-        </ListItem>
-
-        <ListItem button component={Link} to={'/mentorship'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Mentorship" />
-        </ListItem>
-
-        <ListItem button component={Link} to={'/groups'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Groups" />
-        </ListItem>
-      </List>
-
-      <Divider />
+      <Divider/>
 
       <List>
-        <ListItem button component={Link} to={'/contactus'} onClick={handleDrawerToggle}>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Contact Us" />
+        <ListItem button component={Link} to="/contactus" onClick={handleDrawerToggle}>
+          <ListItemIcon/>
+          <ListItemText primary="Contact Us"/>
         </ListItem>
       </List>
     </div>
@@ -125,7 +123,7 @@ function ResponsiveDrawer(props) {
         onClick={handleDrawerToggle}
         className={classes.menuButton}
       >
-        <MenuIcon />
+        <MenuIcon/>
       </IconButton>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -133,7 +131,7 @@ function ResponsiveDrawer(props) {
           <Drawer
             container={container}
             variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
