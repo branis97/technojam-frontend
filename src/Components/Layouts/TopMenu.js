@@ -60,12 +60,10 @@ function TopMenu(props) {
     register,
     logout,
     loadUser,
-    loadContact,
     error,
     clearErrors,
     isAuthenticated,
     user,
-    contact,
     loading,
     showLoading,
     showLogin,
@@ -122,7 +120,7 @@ function TopMenu(props) {
     password: ""
   });
 
-  const { email, password, role, name } = user1;
+  const { email, password, name } = user1;
 
   const handleOpen = () => {
     setOpen(true);
@@ -337,7 +335,7 @@ function TopMenu(props) {
 									</span>
                 ) : (
                   <div>
-                    {user && user.role == "admin" ? (
+                    {user && user.role === "admin" ? (
                       <MenuItem
                         component={Link}
                         to='/pannel'

@@ -41,7 +41,7 @@ export default class ProfilePage extends React.Component {
         <Container fixed>
           <Grid container justify="space-between">
             <Grid item lg={2} md={4} xs={4}>
-              <img src={this.state.currentProfile.Image} style={style.img}/>
+              <img src={this.state.currentProfile.Image} style={style.img} alt=""/>
             </Grid>
             <Grid item lg={10} md={8} xs={6} style={{ marginTop: "4%" }}>
               <Typography variant="h2" style={style.name}>

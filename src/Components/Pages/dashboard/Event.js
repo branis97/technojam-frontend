@@ -12,8 +12,8 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Link } from "react-router-dom";
 import EventContext from "../../../context/event/eventContext";
-import AuthContext from "../../../context/auth/authContext";
 import EventTable from "./EventTable";
 
 const style = {
@@ -39,9 +39,7 @@ const style = {
 };
 
 const Event = () => {
-  const authContext = useContext(AuthContext);
   const eventContext = useContext(EventContext);
-  const { user } = authContext;
   const { events } = eventContext;
 
   const [details, setDetails] = useState({
@@ -336,7 +334,7 @@ const Event = () => {
                     variant='contained'
                     style={{ backgroundColor: "#f50057", color: "white" }}
                   >
-                    Submit <a href='#' target='_blank'/>
+                    <Link to="...">Submit</Link>
                   </Button>
                 </Typography>
               </form>

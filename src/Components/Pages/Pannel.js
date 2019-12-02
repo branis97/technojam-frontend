@@ -9,7 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import { Button, FormGroup, Grid } from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import "../style.css";
 import IconButton from "@material-ui/core/IconButton";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -18,6 +17,8 @@ import Divider from "@material-ui/core/Divider";
 import { MEMBER } from "../../util/constants";
 import ContactTable from "./dashboard/ContactTable";
 import AuthContext from "../../context/auth/authContext";
+import "../style.css";
+import { Link } from "react-router-dom";
 /* FIXME: When the target will be decided, remove the rel attribute.
  * It has been added here for security reasons.
  * Reference: https://mathiasbynens.github.io/rel-noopener/
@@ -211,7 +212,7 @@ const Pannel = () => {
                             <Button
                               variant='contained'
                               style={{ backgroundColor: "#e03030", color: "white" }}>
-                              Submit <a href='#' target='_blank'/>
+                              <Link to="...">Submit</Link>
                             </Button>
                           </Typography>
                         </form>
@@ -274,7 +275,7 @@ const Pannel = () => {
                             <Button
                               variant='contained'
                               style={{ backgroundColor: "#e03030", color: "white" }}>
-                              Submit <a href='#' target='_blank'/>
+                              <Link to="...">Submit</Link>
                             </Button>
                           </Typography>
                         </form>
@@ -294,7 +295,8 @@ const Pannel = () => {
                         style={{ fontFamily: "Roboto", letterSpacing: "1px", fontSize: "22px", textAlign: "center" }}>
                         <b>Volunteer Level</b>
                       </Typography>
-                      <img src={member.volunteerbadage} width='100%' height='auto' style={{ marginLeft: "19px" }}/>
+                      <img src={member.volunteerbadage} width='100%' height='auto' style={{ marginLeft: "19px" }}
+                           alt=""/>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -305,7 +307,7 @@ const Pannel = () => {
                         style={{ fontFamily: "Roboto", letterSpacing: "1px", fontSize: "22px", textAlign: "center" }}>
                         <b> Speaker Level</b>
                       </Typography>
-                      <img src={member.speakerbadage} width='78%' height='auto' style={{ marginLeft: "49px" }}/>
+                      <img src={member.speakerbadage} width='78%' height='auto' style={{ marginLeft: "49px" }} alt=""/>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -316,7 +318,7 @@ const Pannel = () => {
                         style={{ fontFamily: "Roboto", letterSpacing: "1px", fontSize: "22px", textAlign: "center" }}>
                         <b>Open source Contibution</b>
                       </Typography>
-                      <img src={member.ossbadage} width='100%' height='auto' style={{ marginLeft: "11px" }}/>
+                      <img src={member.ossbadage} width='100%' height='auto' style={{ marginLeft: "11px" }} alt=""/>
                     </CardContent>
                   </Card>
                 </Grid>

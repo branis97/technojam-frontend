@@ -215,7 +215,7 @@ const EventContent = props => {
         <li style={eventListsStyle}>
           <div style={{ display: "inline-block", width: "70%" }}>
             <a
-              href='#'
+              href="..."
               style={{
                 margin: "10px 0",
                 color: "#2196F3",

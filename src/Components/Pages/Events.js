@@ -15,7 +15,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Paper from "@material-ui/core/Paper";
 import Rating from "@material-ui/lab/Rating";
-import { makeStyles } from "@material-ui/core/styles";
 import "../style.css";
 import AuthContext from "../../context/auth/authContext";
 import EventContext from "../../context/event/eventContext";
@@ -26,27 +25,26 @@ import EventContext from "../../context/event/eventContext";
  * Reference: https://mathiasbynens.github.io/rel-noopener/
  */
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   container: {
+//     display: "flex",
+//     flexWrap: "wrap"
+//   },
+//   textField: {
+//     marginLeft: theme.spacing(1),
+//     marginRight: theme.spacing(1)
+//   }
+// }));
 
 function PaperComponent(props) {
   return <Paper {...props} />;
 }
 
 const Events = () => {
-  const classes = useStyles();
   const eventContext = useContext(EventContext);
   const authContext = useContext(AuthContext);
 
-  const { loginDialog, user, showLogin, isAuthenticated } = authContext;
+  const { loginDialog, user, isAuthenticated } = authContext;
 
   const { events, registerForEvent } = eventContext;
 
@@ -185,11 +183,11 @@ const Events = () => {
                             style={{ marginTop: "5px" }}
                             src={event.register}
                             disabled={
-                              !!(user && event.users.indexOf(user.uid) != -1)
+                              !!(user && event.users.indexOf(user.uid) !== -1)
                             }
                             onClick={() => handleClickOpen(event)}
                           >
-                            {user && event.users.indexOf(user.uid) != -1
+                            {user && event.users.indexOf(user.uid) !== -1
                               ? "Registered"
                               : "Register Now"}
                           </Button>
@@ -367,7 +365,6 @@ const Events = () => {
           <div>
             <Rating
               name='half-rating'
-              value={4}
               size='large'
               value={ratingValue}
               onChange={(event, newValue) => {

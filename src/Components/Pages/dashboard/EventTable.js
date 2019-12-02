@@ -292,6 +292,7 @@ export default function EventTable() {
           c.desciption
         )
       );
+      return rows;
     });
   };
   return (

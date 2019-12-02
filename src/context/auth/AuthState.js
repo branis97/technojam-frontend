@@ -50,7 +50,7 @@ const AuthState = props => {
           type: USER_LOADED,
           payload: res.data
         });
-        if (res.data.role == "admin") loadContact();
+        if (res.data.role === "admin") loadContact();
       } catch (err) {
         dispatch({ type: AUTH_ERROR });
       }

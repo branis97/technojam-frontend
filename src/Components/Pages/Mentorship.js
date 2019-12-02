@@ -86,7 +86,9 @@ const Mentorship = () => {
                 <a href='https://tjosc.slack.com/' target='_blank' rel='noopener noreferrer'>
                   <i className='fab fa-slack fa-lg' style={{ color: "#e44134" }}/>
                 </a>&#8194;
-                <a href='/' target='_blank' rel='noopener noreferrer'/>
+                <a href='/' target='_blank' rel='noopener noreferrer'>
+                  <i className='fab fa-telegram-plane fa-lg' style={{ color: "#f4b602" }}/>
+                </a>
                 <a href='/' target='_blank'>
                   <i className='fab fa-telegram-plane fa-lg' style={{ color: "#f4b602" }}/>
                 </a>&#8194;
